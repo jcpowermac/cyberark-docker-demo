@@ -29,7 +29,7 @@ LABEL Name="acme/starter-systemd" \
 
 ### Atomic Help File - Write in Markdown, it will be converted to man format at build time.
 ### https://github.com/projectatomic/container-best-practices/blob/master/creating/help.adoc
-COPY help.md user_setup systemd_setup rpm/CARKaim-9.70.0.3.x86_64.rpm /tmp/
+COPY help.md user_setup systemd_setup /tmp/
 
 RUN yum clean all && \
     yum -y update-minimal --security \
