@@ -74,8 +74,8 @@ RUN yum clean all && \
 ### To cleanly shutdown systemd, use SIGRTMIN+3
 STOPSIGNAL SIGRTMIN+3
 ENV container=docker
-RUN systemctl set-default multi-user.target && \
-    systemctl enable crond
+RUN systemctl set-default multi-user.target
+#    systemctl enable crond
 #    /tmp/systemd_setup
 
 COPY ./rpm/CARKaim-9.70.0.3.x86_64.rpm /tmp/
