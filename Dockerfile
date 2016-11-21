@@ -81,7 +81,9 @@ COPY credfile Vault.ini /
 COPY aimparms /var/tmp/
 
 RUN yum -y localinstall /tmp/CARKaim-9.70.0.3.x86_64.rpm && \
-    cat /var/tmp/opm-install-logs/CreateEnv.log
+    cat /var/tmp/opm-install-logs/CreateEnv.log && \
+    rm -f /tmp/CARKaim-9.70.0.3.x86_64.rpm && \
+    yum clean all
 
 ### Containers should NOT run as root as a best practice
 #USER ${USER_UID}
