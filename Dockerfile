@@ -40,7 +40,7 @@ RUN yum clean all && \
                           --enablerepo rhel-7-server-rpms,rhel-7-server-optional-rpms,rhel-7-server-thirdparty-oracle-java-rpms && \
     yum -y install --disablerepo "*" \
                    --enablerepo rhel-7-server-rpms,rhel-7-server-optional-rpms,rhel-7-server-thirdparty-oracle-java-rpms \
-                   --setopt=tsflags=nodocs java-1.8.0-oracle hostname strace && \
+                   --setopt=tsflags=nodocs java-1.8.0-oracle hostname strace redhat-lsb-core && \
     yum clean all
     
  
