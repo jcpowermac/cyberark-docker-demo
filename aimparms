@@ -1,0 +1,29 @@
+[Main]
+AcceptCyberArkEULA=Yes
+CreateVaultEnvironment=yes
+LicensedProducts=ALL
+CredFilePath=/credfile
+VaultFilePath=/Vault.ini
+OverrideExistingConfFile=no
+AppProviderUserLocation=Applications
+
+### In Repair/Upgrade the following parameters will be read from the existing "/etc/opt/CARKaim/conf/basic_appprovider.conf"
+### file unless they are uncommented and contain different values 
+#AppProviderConfSafe=AppProviderConf
+#MainAppProviderConfFile=main_appprovider.conf.linux.<version>
+#MainOPMConfFile=main_opm.conf.linux.<version>
+#AppProviderUser=Prov_<host_name>
+#OPMUser=OPM_<host_name>
+#PIMConfigurationSafe=PVWAConfig
+#PIMConfigurationFolder=Root
+#PIMPVConfigurationFileName=PVConfiguration.xml
+#PIMPoliciesConfigurationFileName=Policies.xml
+###
+
+[AIM]
+CacheLevel=persistent
+CacheRefreshInterval=3
+
+[PIMSu]
+PIMSuCacheLevel=persistent
+PIMSuCacheRefreshInterval=3
