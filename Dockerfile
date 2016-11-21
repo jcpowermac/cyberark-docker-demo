@@ -40,7 +40,7 @@ RUN yum clean all && \
                           --enablerepo rhel-7-server-rpms,rhel-7-server-optional-rpms,rhel-7-server-thirdparty-oracle-java-rpms && \
     yum -y install --disablerepo "*" \
                    --enablerepo rhel-7-server-rpms,rhel-7-server-optional-rpms,rhel-7-server-thirdparty-oracle-java-rpms \
-                   --setopt=tsflags=nodocs java-1.8.0-oracle hostname strace && \
+                   --setopt=tsflags=nodocs java-1.8.0-oracle hostname strace redhat-lsb-core && \
     yum clean all
     
  
@@ -81,7 +81,9 @@ COPY credfile Vault.ini /
 COPY aimparms /var/tmp/
 
 RUN yum -y localinstall /tmp/CARKaim-9.70.0.3.x86_64.rpm && \
-    cat /var/tmp/opm-install-logs/CreateEnv.log
+    cat /var/tmp/opm-install-logs/CreateEnv.log && \
+    rm -f /tmp/CARKaim-9.70.0.3.x86_64.rpm && \
+    yum clean all
 
 ### Containers should NOT run as root as a best practice
 #USER ${USER_UID}
