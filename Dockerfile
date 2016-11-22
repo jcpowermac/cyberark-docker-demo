@@ -40,7 +40,7 @@ RUN yum clean all && \
                           --enablerepo rhel-7-server-rpms,rhel-7-server-optional-rpms,rhel-7-server-thirdparty-oracle-java-rpms && \
     yum -y install --disablerepo "*" \
                    --enablerepo rhel-7-server-rpms,rhel-7-server-optional-rpms,rhel-7-server-thirdparty-oracle-java-rpms \
-                   --setopt=tsflags=nodocs java-1.8.0-oracle hostname strace redhat-lsb-core && \
+                   --setopt=tsflags=nodocs java-1.8.0-oracle hostname strace redhat-lsb-core net-tools iproute && \
     yum clean all
     
  
@@ -67,23 +67,25 @@ RUN yum clean all && \
 #RUN chmod -R ug+x ${APP_ROOT}/bin ${APP_ROOT}/etc /tmp/user_setup /tmp/systemd_setup && \
 #    /tmp/user_setup
 
+RUN chmod -R ug+x /tmp/systemd_setup
 ####### Add app-specific needs below. #######
 ### these are systemd requirements
 ### To cleanly shutdown systemd, use SIGRTMIN+3
 STOPSIGNAL SIGRTMIN+3
 ENV container=docker
-RUN systemctl set-default multi-user.target
-#    systemctl enable crond
-#    /tmp/systemd_setup
+RUN systemctl set-default multi-user.target && \
+    /tmp/systemd_setup
 
 COPY ./rpm/CARKaim-9.70.0.3.x86_64.rpm /tmp/
-COPY credfile Vault.ini /  
+COPY Vault.ini /  
 COPY aimparms /var/tmp/
+COPY icudt42l.dat CreateCredFile /tmp/
+ 
 
+RUN /tmp/CreateCredFile /credfile Password -Username Administrator -Password 
 RUN yum -y localinstall /tmp/CARKaim-9.70.0.3.x86_64.rpm && \
-    cat /var/tmp/opm-install-logs/CreateEnv.log && \
-    rm -f /tmp/CARKaim-9.70.0.3.x86_64.rpm && \
-    yum clean all
+    systemctl enable aimprv && \
+    systemctl enable opmsrv
 
 ### Containers should NOT run as root as a best practice
 #USER ${USER_UID}
@@ -93,4 +95,5 @@ EXPOSE 18923 18924
 #RUN sed "s@${USER_NAME}:x:${USER_UID}:0@${USER_NAME}:x:\${USER_ID}:\${GROUP_ID}@g" \
 #        /etc/passwd > ${APP_ROOT}/etc/passwd.template
 
-CMD ["/opt/CARKaim/bin/opmd","-mode","SERVICE"]
+CMD [ "/sbin/init" ]
+
